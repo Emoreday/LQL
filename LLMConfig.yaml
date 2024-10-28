@@ -1,0 +1,41 @@
+# author: Yikai Zhou
+# LLMConfig.yaml
+# define the config for LLMConfig & quantization here
+os:
+  http_proxy: 'http://127.0.0.1:27890'
+  https_proxy: 'http://127.0.0.1:27890'
+  hf_home: '/home/zyk/.cache/huggingface'
+  cuda_visible_devices: '0,1,2,3,4,5,6,7'
+  transformers_cache: '/home/dataset/huggingface/hub'
+bfp:
+  enabled: true
+  ebit: 4
+  mbit: 3
+  block_size: 8
+  flags: 'bfp'
+ehb:
+  enabled: true
+model_loading:
+  use_name:
+    enable: false
+    name: 'facebook/opt-66b'
+    activation_quant: false
+  use_path:
+    enable: true
+    path: '/home/dataset/huggingface/quant/models--facebook--opt-66b--bfp/snapshots/'
+    offload_folder: '/home/dataset/huggingface/quant/offload'
+    activation_quant: true
+huggingface:
+  token: None
+tasks:
+  - mmlu
+#  - wic
+#  - anli_r2
+#  - lambada_openai
+#  - wikitext
+#  - hellaswag
+#  - arc_challenge
+#  - arc_easy
+#  - winogrande
+
+
