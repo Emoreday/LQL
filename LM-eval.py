@@ -21,7 +21,7 @@ os.environ['HF_HOME'] = config['os']['hf_home']
 os.environ['CUDA_VISIBLE_DEVICES'] = config['os']['cuda_visible_devices']
 os.environ['TRANSFORMERS_CACHE'] = config['os']['transformers_cache']
 
-from quant import block_minifloat_quantize, BlockMinifloat, group_bfp_quantize
+from quant import block_minifloat_quantize, BlockMinifloat
 import torch
 from huggingface_hub import login
 
@@ -42,10 +42,18 @@ if config['model_loading']['use_name']['enable']:
     activation_quant = config['model_loading']['use_name']['activation_quant']
 elif config['model_loading']['use_path']['enable']:
     model_path = config['model_loading']['use_path']['path']
-    co_name = model_path.split('/')[-3].split('--')[1]
-    model_name = model_path.split('/')[-3].split('--')[2]
-    offload_folder = config['model_loading']['offload_folder']
-    activation_quant = config['model_loading']['use_name']['activation_quant']
+    try:
+        if model_path.endswith('/'):
+            co_name = model_path.split('/')[-3].split('--')[1]
+            model_name = model_path.split('/')[-3].split('--')[2]
+        else:
+            co_name = model_path.split('/')[-2].split('--')[1]
+            model_name = model_path.split('/')[-2].split('--')[2]
+    except IndexError:
+        print("[ERROR] No name found in the path. Please check your path.")
+        exit()
+    offload_folder = config['model_loading']['use_path']['offload_folder']
+    activation_quant = config['model_loading']['use_path']['activation_quant']
 else:
     raise ValueError("[ERROR] Config ERROR on model_loading: no Available method to load model. ")
 

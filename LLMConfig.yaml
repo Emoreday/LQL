@@ -12,7 +12,7 @@ bfp:
   ebit: 4
   mbit: 3
   block_size: 8
-  flags: 'bfp'
+  single: 'bfp'
 ehb:
   enabled: true
 model_loading:
