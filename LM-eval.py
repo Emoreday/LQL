@@ -58,6 +58,7 @@ else:
     raise ValueError("[ERROR] Config ERROR on model_loading: no Available method to load model. ")
 
 access_token = config['huggingface']['token']
+tasks = config['tasks']
 
 # In[]
 
